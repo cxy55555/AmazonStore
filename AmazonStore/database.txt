@@ -1,0 +1,41 @@
+<products>
+book
+Data Abstraction
+79.99
+20
+978-013292372-9
+Carrano
+movie
+The Killer Rabbit of Caerbannog: A Documentary
+0.01
+800000
+Disaster
+PG-13
+clothing
+Men's Fitted Shirt
+39.99
+25
+Medium
+J. Crew
+</products>
+<users>
+jdoe 100.0 0
+fjones 100.0 0
+talksalot 0.0 0
+</users>
+<reviews>
+Data Abstraction
+3 jdoe 2000-11-05 Too abstract.
+Data Abstraction
+5 jdoe 2000-11-01 The beginning of an era
+Data Abstraction
+4 talksalot 2000-11-25 I was worried that it might be a little too difficult, but honestly it isn't that bad.  I loved the parts about static programming and selfless algorithms, as well as the antidisestablishmentarian pedagogy about decentralizing compiler vendors.
+Data Abstraction
+4 fjones 2000-11-22
+Men's Fitted Shirt
+3 fjones 2007-09-04 Way too tight.
+The Killer Rabbit of Caerbannog: A Documentary
+5 jdoe 2016-02-27 Why did the police show up at the end?
+The Killer Rabbit of Caerbannog: A Documentaryn
+5 jdoe 2016-02-27 You don't just paint EEERUGH
+</reviews>

@@ -2,6 +2,7 @@
 #include <fstream>
 #include <set>
 #include <sstream>
+#include <algorithm>
 #include <vector>
 #include <iomanip>
 #include <algorithm>
@@ -31,8 +32,18 @@ struct Compt
 {
 	bool operator()(Review* lhs, Review* rhs)
 	{
-		return lhs->date < rhs->date;
+		return lhs->date > rhs->date;
 	}
+};
+
+struct CompRev{
+    bool operator()(pair<string,double> p1, pair<string,double> p2)
+    {
+        if(p1.second!=p2.second){
+            return p1.second>p2.second;
+        }
+        return p1.first<p2.first;
+    }
 };
 
 void displayProducts(vector<Product*>& hits);
@@ -76,7 +87,7 @@ int main(int argc, char* argv[])
 
     cout << "=====================================" << endl;
     cout << "Menu: " << endl;
-    cout << "  LOGIN username                     " << endl;
+    cout << "  LOGIN username password            " << endl;
     cout << "  LOGOUT                             " << endl;
     cout << "  AND r/n term term ...              " << endl;
     cout << "  OR r/n term term ...               " << endl;
@@ -85,6 +96,7 @@ int main(int argc, char* argv[])
     cout << "  BUYCART                            " << endl;
     cout << "  ADDREV seach_hit_number rating date review_text" << endl;
     cout << "  VIEWREV seach_hit_number           " << endl;
+    cout << "  REC                                " << endl;
     cout << "  QUIT new_db_filename               " << endl;
     cout << "====================================" << endl;
 
@@ -160,6 +172,34 @@ int main(int argc, char* argv[])
             }
 	    /* Add support for other commands here */
             //if add command
+            else if(cmd=="REC")
+            {
+                string name;
+                if(username=="")
+                {
+                    cout<<"No current user"<<endl;
+                }   
+                else{            
+                    vector<std::pair<std::string, double> > result;
+                    result=ds.makeSuggestion(username);
+                    stable_sort(result.begin(),result.end(),CompRev());
+                    if(result.size()==0) {
+                        cout<<"No recommendations available"<<endl;
+                    }
+                    else{
+                        ofstream ofile("rec.txt");
+                        cout<<username<<endl;
+                        ofile<<username<<endl;
+                        for(size_t i=0; i< result.size();i++){
+                            cout<<fixed<<setprecision(2)<<result[i].second;
+                            cout<<" "<<result[i].first<<endl;
+                            ofile<<fixed<<setprecision(2)<<result[i].second;
+                            ofile<<" "<<result[i].first<<endl;
+                        }
+                        ofile.close();
+                    }
+                }
+            }
             else if(cmd=="ADDREV")
             {
             	size_t num;
@@ -193,12 +233,7 @@ int main(int argc, char* argv[])
             else if(cmd=="VIEWREV")
             {
             	size_t index;
-            	if(username=="")
-            	{
-            		cout <<"No current user"<< endl;
-            	}
-            	else
-            	{
+            	
             		if(ss>>index&& index<=hits.size())
             		{
 
@@ -212,22 +247,29 @@ int main(int argc, char* argv[])
             			}         			          			
             		}
             		else cout<<"Invalid request"<< endl;
-            	}
+            	
             }
             else if(cmd=="LOGIN")
             {
                 string temp;
+                string password;
                 if(ss>>temp)
                 {
-                    if(ds.checkuser(temp))
+                    if(ss>>password)
                     {
-                        username=temp;
+                        if(ds.checkuser(temp,password))
+                        {
+                            username=temp;
+                            cout<<"User logged in"<<endl;
+                        }
+                        else
+                        {
+                            cout <<"Invalid login credentials"<< endl;
+                        }
                     }
-                    else
-                    {
-                        cout <<"Invalid user"<< endl;
-                    }
+                    else cout <<"Invalid login credentials"<< endl;
                 }
+                else cout <<"Invalid login credentials"<< endl;
             }
             else if(cmd=="LOGOUT")
             {

@@ -212,6 +212,7 @@ User* UserSectionParser::parseUser(
     string username;
     double balance;
     int type;
+    unsigned long long password;
     is >> username;
     if( is.fail() ) {
         errorMsg = "Unable to read username";
@@ -227,7 +228,12 @@ User* UserSectionParser::parseUser(
         errorMsg = "Unable to read type";
         return NULL;
     }
-    return new User(username, balance, type);
+    is>>password;
+    if(is.fail()){
+        errorMsg="Unable to read password";
+        return NULL;
+    }
+    return new User(username, balance, type, password);
 }
 
 void UserSectionParser::reportItemsRead(std::ostream& os)

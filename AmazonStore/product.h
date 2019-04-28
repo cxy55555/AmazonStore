@@ -54,6 +54,7 @@ protected:
     std::string category_;
     std::vector<Review*> reviews;
     double rating_;
+   
 
 
 };

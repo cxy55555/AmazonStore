@@ -1,10 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <string>
-using namespace std;
+#include <sstream>
+
 
 template <class T, class Comparator>
-  void mergeSort (vector<T>& myArray, Comparator comp)
+  void mergeSort (std::vector<T>& myArray, Comparator comp)
   {
   	
   	
@@ -13,7 +14,7 @@ template <class T, class Comparator>
 
 //recursive sort
 template <class T, class Comparator>
-  void msort (vector<T>& mylist,
+  void msort (std::vector<T>& mylist,
   	int start, int end, Comparator comp)
   {
   	if(start+1>=end)
@@ -31,7 +32,7 @@ template <class T, class Comparator>
   }
 
 template <class T, class Comparator>
-  void merge (vector<T>& mylist, 
+  void merge (std::vector<T>& mylist, 
   	int start,int mid, int end, Comparator comp)
   {
   	int left=0;
